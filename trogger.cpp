@@ -128,9 +128,9 @@ void erase (std::vector< std::vector < int > >& cache){
 
 int main (void){
   std::vector< std::vector < int > > cache; 
-  int cycles, key, y_pos, x_pos, moveNum, level, lifes;
+  int key, moveNum, level, lifes;
   int score = 0;
-  bool hOn=true, draw=false, debug=false;
+  bool debug=false;
   level = 1;
   lifes = 0;
   room the_room;
@@ -151,10 +151,7 @@ int main (void){
   cache.resize(COLS, vector<int>(LINES, 6));
   noecho();
   moveNum=0;
-  cycles=0;
   nodelay(stdscr,TRUE);
-  x_pos = COLS/2;
-  y_pos = LINES-3;
   frog frogger = frog(COLS/2, LINES-3);
   
   do{
@@ -216,21 +213,21 @@ int main (void){
       lifes++;
       frogger.set_x(COLS/2);
       frogger.set_y(LINES-3);
-      score += 1000 - cycle;
+      score += 10000 - cycle;
       cycle = 0;
     }
     else if (cache[x][y] != 6){
       if (lifes == 0){
         bool quit = death(score, level);
         if (quit == true){
-	  return 0;
-	  // refresh map
+	        return 0;
+	        // refresh map
         }
         else {
-	  lifes = 0;
-	  level = 1; 
-	  score = 0;
-	  frogger = frog(COLS/2, LINES-3);
+	        lifes = 0;
+	        level = 1; 
+	        score = 0;
+	        frogger = frog(COLS/2, LINES-3);
         }
       }
       else{
