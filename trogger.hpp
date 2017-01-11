@@ -12,9 +12,9 @@ void room::make_floor(){
   for (int i = 0; i < COLS; i++){
     for (int j = 0; j < LINES; j++){
       if(i==x_x && j == x_y)
-		cache[i][j] = 4;
-	  else
-		cache[i][j] = 6;
+		    cache[i][j] = 4;
+	    else
+		    cache[i][j] = 6;
     }
   }
   return;
@@ -27,7 +27,7 @@ void room::refresh_exits(){
     move(y, x);
     attrset(COLOR_PAIR(4));
     addch(' ');
-  //  cache[x][y] = 4;
+ //   cache[x][y] = 4;
 //  }
     refresh();
     return;
@@ -46,6 +46,9 @@ void room::set_start(int x, int y){
   return;
 }
 room::room(){
+  initscr();  
+  keypad(stdscr,TRUE);
+  start_color(); 
   num_of_exits = 1;
   start_x = COLS/2;
   start_y = LINES-3;
@@ -54,9 +57,12 @@ room::room(){
   x_x = COLS/2;
   x_y = 2;  
   make_floor();
-//  refresh_exits();
-    refresh();
+  refresh_exits();
+  refresh();
   return;
+}
+int room::get_block(int x, int y){
+  return cache[x][y];
 }
 frog::frog(int x, int y){
   x_position = x;

@@ -6,6 +6,7 @@ class room {
     vector< vector< int > > cache;
     vector< int > exits_x;
     vector< int > exits_y;
+    int get_block(int x, int y);
     void make_floor();
     void refresh_exits();
     void new_exit(int x, int y);

@@ -6,4 +6,4 @@ trogger.x: trogger.o
 			$(CC) -o  trogger.x trogger.o -lncurses
 
 trogger.o: trogger.cpp
-	        $(CC) -c  trogger.cpp -lncurses
+	        $(CC) -c -g  trogger.cpp -lncurses
