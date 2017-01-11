@@ -27,7 +27,7 @@ void room::refresh_exits(){
     move(y, x);
     attrset(COLOR_PAIR(4));
     addch(' ');
- //   cache[x][y] = 4;
+    cache[x][y] = 4;
 //  }
     refresh();
     return;
@@ -123,6 +123,7 @@ car::car(){
   left_to_right = TRUE;
   color = 3;
   length = 2;
+  speed = 3; 
   return;
 }
 
@@ -132,13 +133,14 @@ car::car(int x, int y, bool L_to_R){
   left_to_right = L_to_R;
   color = 3;
   length = 2;
+  speed = 3; 
   return;
 }
 
 int moving_object::get_color(){
   return color;
 }
-void moving_object::advance(std::vector< std::vector < int > >& cache){
+void moving_object::advance(std::vector< std::vector < int > >& cache, frog& frogger){
   int direction = 0;
   if (left_to_right){
     direction = 1;
@@ -193,6 +195,7 @@ train::train(int x, int y, bool L_to_R){
   left_to_right = L_to_R;
   length = 6;
   color = 5;
+  speed = 2; 
   return;
 }
 
@@ -202,6 +205,7 @@ log::log(int x, int y, bool L_to_R){
   left_to_right = L_to_R;
   length = 8;
   color = 6;
+  speed = 1; 
   return;
 }
 
@@ -274,3 +278,30 @@ void log::advance(std::vector< std::vector < int > >& cache, frog& frogger){
   return;
 }
 
+level_1::level_1(){
+  objects.push_back(car(0, 10, TRUE)); 
+  objects.push_back(car(20, 11, FALSE));
+  objects.push_back(car(40, 19, TRUE));
+  objects.push_back(car(30, 10, TRUE));
+  objects.push_back(train(60, 8, FALSE));
+  objects.push_back(log(70, 16, TRUE));
+  objects.push_back(log(25, 16, TRUE));
+  objects.push_back(log(30, 5, FALSE));
+  objects.push_back(log(70, 5, FALSE));
+  return;  
+}
+
+void level_1::advance(int cycle, frog& frogger, room& the_room){
+  for(int i = 0; i < objects.size(); i++){
+    if(objects[i].speed == 3){
+      objects[i].advance(the_room.cache, frogger);}
+    else if(objects[i].speed == 2){
+      if (cycle % 2 == 1 || cycle % 3 == 2)
+        objects[i].advance(the_room.cache, frogger);
+    }
+    else if(objects[i].speed == 1){
+      if (cycle % 2 == 1)
+        objects[i].advance(the_room.cache, frogger);
+    }
+  }
+}

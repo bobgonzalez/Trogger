@@ -39,13 +39,13 @@ class frog {
     int y_position;
     vector< pair <int, int> > history;
 };
-
 class moving_object { 
   public:
-    void advance(std::vector< std::vector< int > >& cache);
+    void advance(std::vector< std::vector< int > >& cache, frog& frogger);
     int get_color();
     int get_x();
     int get_y();
+    int speed;
     
   protected:
     int length;
@@ -59,18 +59,30 @@ class car: public moving_object {
   public:
     car();
     car(int x, int y, bool L_to_R);
-    
+    int speed;
 };
 
 class train: public moving_object {
   public:
     train(int x, int y, bool L_to_R);
+    int speed;
 };
 
 class log: public moving_object {
   public:
     log(int x, int y, bool L_to_R);
+    int speed;
     void advance(std::vector< std::vector< int > >& cache, frog& frogger);
+};
+
+class level_1 { 
+  public:
+    vector< moving_object > objects;
+    level_1();
+    void advance(int cycle, frog& frogger, room& the_room);
+
+  private:
+
 };
 
 #include "trogger.hpp"

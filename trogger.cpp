@@ -44,7 +44,6 @@ void level_1 (frog& frogger, room& the_room){
       for (i = 0; i < COLS; i++){
 	      if (j == 16 || j == 5){
 	        attrset(COLOR_PAIR(2));
-//	        cache[i][j] = 2;
 	        the_room.cache[i][j] = 2;
 	        mvaddch(j, i, ' ');
 	      }
@@ -56,11 +55,11 @@ void level_1 (frog& frogger, room& the_room){
     log2.advance(the_room.cache, frogger);
   }
   if (cycle % 2 == 1 || cycle % 3 == 2)
-    train1.advance(the_room.cache);
-  car4.advance(the_room.cache);
-  car1.advance(the_room.cache);
-  car2.advance(the_room.cache);
-  car3.advance(the_room.cache);
+    train1.advance(the_room.cache, frogger);
+  car4.advance(the_room.cache, frogger);
+  car1.advance(the_room.cache, frogger);
+  car2.advance(the_room.cache, frogger);
+  car3.advance(the_room.cache, frogger);
   move(1, COLS/2);
   attrset(COLOR_PAIR(4));
   addch(' ');
@@ -154,7 +153,6 @@ int main (void){
     levels(level, frogger, the_room);
     cycle++;
     napms(15);
-  //  cache.resize(COLS, vector<int>(LINES, 6));
     the_room.cache.resize(COLS, vector<int>(LINES, 6));
     key=getch();
     int x = frogger.get_x();
@@ -218,13 +216,13 @@ int main (void){
         bool quit = death(score, level);
         if (quit == true){
 	        return 0;
-	        // refresh map
         }
         else {
 	        lifes = 0;
 	        level = 1; 
 	        score = 0;
 	        frogger = frog(COLS/2, LINES-3);
+          the_room.make_floor();
         }
       }
       else{
@@ -239,7 +237,7 @@ int main (void){
     move(1, COLS/2);
     attrset(COLOR_PAIR(4));
     addch(' ');
-    the_room.cache[COLS/2][1]=4;
+    the_room.refresh_exits();
     attrset(COLOR_PAIR(6));
     attron(A_REVERSE) ;
     mvprintw(LINES-1, 0, "       Time:  %d        Score:  %d    x:%d, y:%d     Lifes: %d    Level: %d          ", cycle, score, x, y, lifes, level);
